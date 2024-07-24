@@ -1,0 +1,105 @@
+<style>
+  .filter{
+    text-align: center;
+    margin-top: 1rem;
+    margin-right: 1.5rem;
+    opacity: 0.7;
+  }
+  .filter:hover
+  {
+    opacity: 1;
+    cursor: pointer;
+  }
+  #filters
+  {
+    display: flex;
+    flex-wrap: wrap
+    /* justify-content: ; */
+  }
+</style>
+
+<% layout("/layouts/boilerplate") %>
+
+<script>
+  let port = "<%= port_no %>";
+    console.log("port in index.ejs  ",port);
+
+</script>
+<!-- <div class="container"> -->
+  <!-- <h3 class="mt-3">All Listings</h3>
+   -->
+  <!-- <button onclick="scrollToBottom()">Scroll to Bottom</button> -->
+  <!-- row-cols-lg-3   row-cols-md-2   row-cols-sm-1 can remove also -->
+  
+   <div id="filters">
+      <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>Beachfront</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-building"></i></div>
+        <p>Bunglows</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-horse"></i></div>
+        <p>National parks</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-water-ladder"></i></div>
+        <p>Amazing pools</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-snowman"></i></div>
+        <p>Arctic</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-tractor"></i></div>
+        <p>Farm</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-water"></i></div>
+        <p>Lake</p>
+      </div>
+      <div class="filter">
+        <div> <i class="fa-solid fa-igloo"></i></div>
+        <p>Earth homes</p>
+      </div>
+     
+   </div>
+
+    <div class="row row-cols-lg-3   row-cols-md-2   row-cols-sm-1 mt-3">
+      <% allListings.forEach(element=> { %>
+        <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
+          <div class="card litsting-card" style="width: 100%;">
+            <!-- <div class="card" style="width: 20rem;"> -->
+              <a href="http://localhost:<%=port_no%>/listings/<%= element._id%>" class="click-link"> 
+                <img src="<%=element.image.url%>" class="card-img-top" alt="listing_img" style="height: 20rem;">
+                  <div class="card-img-overlay"><%= element.title%></div>
+                  <div class="card-body">
+                    <p class="card-text">
+                      <%= element.title %><br>
+                      ₹<%= element.price.toLocaleString("en-IN")%> / night</p>
+                  </div>
+                </a>
+              </div>
+          </div> 
+                          <!-- <li><a href="http://localhost:8080/listings/<%= element._id%>"> Title:- <%= element.title %></a></li> -->
+        <% }); %>
+      </div>
+<!-- </div> -->
+<script>
+  function scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+// let port = "<%#= port_no %>";
+//     console.log("port in index.ejs  ",port);
+      
+        // let listing=<%#- JSON.stringify(listingData) %>
+      
+ 
+</script>
+
