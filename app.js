@@ -55,8 +55,8 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 
-app.listen(process.env.PORT_NO,()=>{
-    console.log(`server is listnening on port ${process.env.PORT_NO}`);
+app.listen(()=>{
+    console.log(`server is listnening`);
 })
 
 //from util
@@ -71,13 +71,15 @@ app.get("/",(req,res)=>{
  
 //to create a session , store . session managemenet
 // and before use passport session 
-const mongoUrl="mongodb://localhost:27017/wanderlust";
+// const mongoUrl="mongodb://localhost:27017/wanderlust";
+
 const sessionOptions={
     secret:process.env.SECRET_SESSION_KEY,
     resave:false,
     saveUninitialized:true,
     store: MongoStore.create({
-        mongoUrl: `${process.env.ATLAS_DB_URL}`,
+        mongoUrl: `${process.env.DB_URL}`,
+        // mongoUrl: `${process.env.MONGO_DB_URL}`,
         
     }),
     cookie:
@@ -125,8 +127,9 @@ main()
 .catch(err=>{console.log("something wrong happen while connecting database",err);})
 async function main()
 {
-    await mongoose.connect(process.env.ATLAS_DB_URL)
-    // await mongoose.connect(mongoUrl)
+    console.log("trying to connect ",process.env.DB_URL);
+    await mongoose.connect(process.env.DB_URL)
+    // await mongoose.connect(process.env.MONGO_DB_URL)
 }
  
 app.use("/signup",users)

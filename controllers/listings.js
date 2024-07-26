@@ -4,17 +4,17 @@ const geocodingClient = mbxGeocoing({ accessToken: process.env.MAP_TOKEN });
 
 // stylesService exposes listStyles(), createStyle(), getStyle(), etc.
 
-console.log("port unumer listing.js file ",process.env.PORT_NO);
+ 
 module.exports.index=async(req,res)=>{
     const allListings=await listing.find({});
      
     // console.log("this is one mthod to send flash  ",msg);
     // by res.locals.success autpmatic success varible value is assign for all routes
-      res.render("listings/index.ejs",{allListings,port_no:process.env.PORT_NO});
+      res.render("listings/index.ejs",{allListings,site_url:process.env.SITE_URL});
   }
 module.exports.newListForm=(req,res)=>{
 
-    res.render("listings/new.ejs");
+    res.render("listings/new.ejs",{site_url:process.env.SITE_URL});
 }
 
 module.exports.showList=async(req,res,next)=>{
@@ -33,13 +33,13 @@ module.exports.showList=async(req,res,next)=>{
               res.redirect("/listings");
           }
       else{
-            console.log("listing data ",listingData);
-            console.log("port no ",process.env.PORT_NO);
-            res.render("listings/show.ejs",{listingData,port_no:process.env.PORT_NO});
+            // console.log("listing data ",listingData);
+            // console.log("port no ",process.env.PORT_NO);
+            res.render("listings/show.ejs",{listingData,site_url:process.env.SITE_URL});
            }
     }
     catch(err){
-            console.log("Something went wrong in /:id  of listings.js file..");
+            console.log(`Something went wrong in /:${id}  of listings.js file..`);
                 next((new ExpressError(404,"Page Not Found")));
             }
 }

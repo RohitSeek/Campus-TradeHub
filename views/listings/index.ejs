@@ -3,7 +3,7 @@
     text-align: center;
     margin-top: 1rem;
     margin-right: 1.5rem;
-    opacity: 0.7;
+    opacity: 0.9;
   }
   .filter:hover
   {
@@ -13,7 +13,9 @@
   #filters
   {
     display: flex;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    justify-content: center;
+     
     /* justify-content: ; */
   }
 </style>
@@ -21,8 +23,8 @@
 <% layout("/layouts/boilerplate") %>
 
 <script>
-  let port = "<%= port_no %>";
-    console.log("port in index.ejs  ",port);
+ 
+  // let site_url="<%#=%>"
 
 </script>
 <!-- <div class="container"> -->
@@ -31,7 +33,7 @@
   <!-- <button onclick="scrollToBottom()">Scroll to Bottom</button> -->
   <!-- row-cols-lg-3   row-cols-md-2   row-cols-sm-1 can remove also -->
   
-   <div id="filters">
+   <!-- <div id="filters">
       <div class="filter">
         <div><i class="fa-solid fa-fire"></i></div>
         <p>Trending</p>
@@ -69,20 +71,20 @@
         <p>Earth homes</p>
       </div>
      
-   </div>
+   </div> -->
 
     <div class="row row-cols-lg-3   row-cols-md-2   row-cols-sm-1 mt-3">
       <% allListings.forEach(element=> { %>
         <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
           <div class="card litsting-card" style="width: 100%;">
             <!-- <div class="card" style="width: 20rem;"> -->
-              <a href="https://campus-tradehub-6qc3.onrender.com/listings/<%= element._id%>" class="click-link"> 
+              <a href="<%= site_url %>/listings/<%= element._id%>" class="click-link"> 
                 <img src="<%=element.image.url%>" class="card-img-top" alt="listing_img" style="height: 20rem;">
                   <div class="card-img-overlay"><%= element.title%></div>
                   <div class="card-body">
                     <p class="card-text">
                       <%= element.title %><br>
-                      ₹<%= element.price.toLocaleString("en-IN")%> / night</p>
+                      <b>₹<%= element.price.toLocaleString("en-IN")%> / night</p> </b>
                   </div>
                 </a>
               </div>

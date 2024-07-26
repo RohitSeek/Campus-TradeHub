@@ -4,6 +4,7 @@
  <script>
         let map_token="<%= process.env.MAP_TOKEN %>"
         let port="<%= process.env.PORT_NO%>"
+        // let url="<%#= process.env.SITE_URL%>"
         // const listingData = `<%#- JSON.stringify(listingData) %>`;
         let listingData =`<%- JSON.stringify(listingData) %>`;
       console.log("in show ",listingData);
@@ -34,7 +35,7 @@
           <div class="btns show-card listing-card">
             <hr>
                 <!-- btn-dark col-1 offset-3 edit-btn -->
-                <a href="https://campus-tradehub-6qc3.onrender.com/listings/<%= listingData._id%>/edit" 
+                <a href="<%= site_url %>/listings/<%= listingData._id%>/edit" 
                     class="btn btn-dark col-1 offset-3 edit-btn">Edit
                 </a> 
                   
