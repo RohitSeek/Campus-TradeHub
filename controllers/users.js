@@ -34,7 +34,7 @@ module.exports.signUp=async(req,res)=>{
 module.exports.logInForm=(req,res)=>{
     const sessionId = req.sessionID;
     console.log("Before log in session id ",sessionId);
-    res.render("users/login.ejs");
+    res.render("users/logIn.ejs");
 }
 module.exports.logOut=(req,res)=>{
     console.log(req.user);
