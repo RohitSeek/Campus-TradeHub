@@ -3,13 +3,13 @@ const mbxGeocoing = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoing({ accessToken: process.env.MAP_TOKEN });
 
 // stylesService exposes listStyles(), createStyle(), getStyle(), etc.
-
  
 module.exports.index=async(req,res)=>{
     const allListings=await listing.find({});
      
     // console.log("this is one mthod to send flash  ",msg);
     // by res.locals.success autpmatic success varible value is assign for all routes
+     
       res.render("listings/index.ejs",{allListings,site_url:process.env.SITE_URL});
   }
 module.exports.newListForm=(req,res)=>{
