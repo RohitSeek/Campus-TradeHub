@@ -54,8 +54,8 @@ app.use(express.urlencoded({extended:true}))
 //to parse json data
 app.use(express.json())
 
-
-app.listen(()=>{
+const PORT = process.env.PORT || 3000;
+app.listen(PORT,()=>{
     console.log(`server is listnening`);
 })
 
