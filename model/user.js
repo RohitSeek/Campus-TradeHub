@@ -5,7 +5,9 @@ const userSchema=new Schema({
     email:{
         type:String,
         require:true    
-    }
+    },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String }
 })
 //no need to create username,Hashpassword and salt attributes
 //as passportLocalMongoose automatic stores it

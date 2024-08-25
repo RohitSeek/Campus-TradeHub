@@ -50,8 +50,8 @@ module.exports.createNewList=async(req,res,next)=>{
     const {title,description,price,country}=req.body;
        let  image=req.file.path
        const filename=req.file.filename
-        console.log(req.file);
-         console.log(image);
+        // console.log(req.file);
+        //  console.log(image);
        const listings = new listing(req.body);
 
        listings.image={url:image,filename};
@@ -64,7 +64,7 @@ module.exports.createNewList=async(req,res,next)=>{
 
     listings.geometry=response.body.features[0].geometry;
     const a=await listings.save();
-    console.log("created lising ",a);
+    // console.log("created lising ",a);
     req.flash("success","New Listing created");
     res.redirect("/listings");
     }
@@ -78,7 +78,7 @@ module.exports.createNewList=async(req,res,next)=>{
 }
 module.exports.editForm=async (req,res)=>{
     const {id}=req.params;
-    console.log("IN get of /:id/edit ");
+    // console.log("IN get of /:id/edit ");
     const listingData=await listing.findById(id).populate("owner");
     if(!listingData)
         {
@@ -105,11 +105,11 @@ module.exports.editForm=async (req,res)=>{
 module.exports.editList=async(req,res,next)=>{
     const {id}=req.params;
    
-    console.log("###############################################",req.body);
+    // console.log("###############################################",req.body);
     
 
     const prevData=await listing.findById(id);
-    console.log("prev data:- ",prevData);
+    // console.log("prev data:- ",prevData);
 
     const{title,description,price,location,country}=req.body;
 
@@ -152,7 +152,7 @@ module.exports.editList=async(req,res,next)=>{
             
        
       
-       console.log("new Updated data: ",updatedListing); 
+    //    console.log("new Updated data: ",updatedListing); 
        req.flash("success","Listing Edit Successful")
     res.redirect(`/listings/${id}`);
 

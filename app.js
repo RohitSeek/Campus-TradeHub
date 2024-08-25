@@ -56,7 +56,7 @@ app.use(express.json())
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
-    console.log(`server is listnening`);
+    console.log(`server is listnening `,PORT);
 })
 
 //from util
@@ -117,7 +117,13 @@ app.use((req,res,next)=>{
     //can be access in ejs files also
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
-    res.locals.currUser=req.user;         //for all ejs files
+    if (req.user && req.user.isVerified) {     
+        res.locals.currUser=req.user;         //for all ejs files
+    }
+    else
+    {
+        res.locals.currUser=null;
+    }
     next();
 })
 
@@ -136,6 +142,21 @@ app.use("/signup",users)
 app.use("/",users)  //for log in 
 app.use("/listings",listings)
 app.use("/listings/:id/reviews",reviews)
+
+app.get('/verify/:token', async (req, res) => {
+    const user = await User.findOne({ verificationToken: req.params.token });
+  
+    if (!user) {
+      return res.status(400).send('Invalid token');
+    }
+  
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    await user.save();
+    req.flash("success", "Verfication link sent to your email");
+    res.redirect("/listings");
+  });
+
 // app.use
 
 //toa path which are not mention in above then it will throw error 

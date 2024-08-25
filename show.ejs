@@ -2,105 +2,10 @@
 <!-- <body> -->
 <!-- <div class="row mt-3"> -->
     <style>
-        .show-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border-radius: 8px; /* Rounded corners */
-    overflow: hidden; /* Ensures inner content doesn't overflow */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
-}
-
-.show-card:hover {
-    transform: translateY(-10px); /* Hover effect */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-}
-
-.card-body {
-    background-color: #f8f9fa; /* Light gray background for the card body */
-    padding: 20px; /* More padding for spacing */
-}
-
-.price-text {
-    font-weight: bold; /* Bold font for price */
-    color: #28a745; /* Green color for price to make it stand out */
-}
-
-.location-text {
-    font-style: italic; /* Italicize location for style */
-    color: #6c757d; /* Muted color for less emphasis */
-}
-
-@media (max-width: 767.98px) {
-    /* Styles for small devices */
-    .show-card {
-        margin-bottom: 20px; /* Extra space at the bottom */
-    }
-
-    .card-body {
-        padding: 15px; /* Less padding on small devices */
-    }
-}
-
         .navbar{
             height: auto;
             
         }
-        #map {
-    width: 100%;  /* Ensures the map is responsive */
-    height: 400px;  /* Set a fixed height suitable for your design */
-    }
-    .btns {
-    margin: 0 auto;
-    text-align: center; /* Center content horizontally */
-    display: flex;
-    justify-content: center; /* Center content horizontally */
-}
-
-.d-flex {
-    display: flex;
-}
-
-.justify-content-center {
-    justify-content: center; /* Center items horizontally */
-}
-
-.flex-wrap {
-    flex-wrap: wrap; /* Allow items to wrap to the next line if necessary */
-}
-
-.btn {
-    padding: 0.5rem 1rem; /* Default padding */
-}
-
-/* Large screens (laptops and desktops) */
-@media (min-width: 992px) {
-    .btn {
-        font-size: 1rem; /* Larger text size */
-        padding: 0.75rem 1.5rem; /* Larger padding */
-    }
-}
-
-/* Medium screens (tablets) */
-@media (min-width: 768px) and (max-width: 991px) {
-    .btn {
-        font-size: 0.875rem; /* Medium text size */
-        padding: 0.6rem 1.2rem; /* Medium padding */
-    }
-}
-
-/* Small screens (mobile devices) */
-@media (max-width: 767px) {
-    .btn {
-        font-size: 0.75rem; /* Smaller text size */
-        padding: 0.4rem 0.8rem; /* Smaller padding */
-    }
-    
-    .edit-btn, form {
-        width: 100%; /* Full width on small screens for buttons and form */
-        text-align: center; /* Center align the button and form */
-    }
-
-}
-    
     </style>
  <script>
         let map_token="<%= process.env.MAP_TOKEN %>"
@@ -114,33 +19,35 @@
     <div class="col-8 title offset-3 ">
         <h3><%= listingData.title %></h3>
     </div>
-    <div class="card col-md-6 col-lg-4 mx-auto mt-4 show-card listing-card">
-        <img src="<%= listingData.image.url %>" 
-            class="card-img-top show-img img-fluid rounded"
+
+    <div class="card col-6 offset-3 show-card listing-card">
+        <img src="<%= listingData.image.url%>" 
+            class="card-img-top show-img"
             alt="listing_image"
             height="300px"
-        />
-        <div class="card-body text-center">
-            <p class="card-text owner-text mb-2"><i>Owned by <%= listingData.owner.username %></i></p>
-            <p class="card-text description-text mb-3"><%= listingData.description %></p>
-            <p class="card-text price-text mb-2">&#8377; <%= listingData.price.toLocaleString("en-IN") %></p>
-            <p class="card-text location-text mb-2"><%= listingData.location %>, <%= listingData.country %></p>
+            />
+        <div class="card-body">
+            <p class="card-text"><i>owned by <%=listingData.owner.username%></i></p>
+            <p class="card-text"><%= listingData.description %></p>
+            <p class="card-text">&#8377; <%= listingData.price.toLocaleString("en-IN")%></p>
+            <p class="card-text"><%= listingData.location%></p>
+            <p class="card-text"><%= listingData.country%></p>
         </div>
+       
     </div>
-    
-    
-        <br>
+  
         <% if (currUser && currUser._id.equals(listingData.owner._id)) { %>
-            <div class="btns show-card listing-card">
-                <hr>
-                <div class="d-flex justify-content-center flex-wrap">
-                    <a href="<%= site_url %>/listings/<%= listingData._id %>/edit" 
-                       class="btn btn-dark edit-btn me-2 mb-2">Edit
-                    </a> 
-                    <form method="post" action="/listings/<%= listingData._id%>?_method=Delete" class="mb-2">
-                        <button type="submit" class="btn btn-dark">Delete</button>
-                    </form>
-                </div>
+           
+          <div class="btns show-card listing-card">
+            <hr>
+                <!-- btn-dark col-1 offset-3 edit-btn -->
+                <a href="<%= site_url %>/listings/<%= listingData._id%>/edit" 
+                    class="btn btn-dark col-1 offset-3 edit-btn">Edit
+                </a> 
+                  
+                <form method="post" action="/listings/<%= listingData._id%>?_method=Delete">
+                    <button type="submit" class="btn btn-dark offset-5">Delete</button>
+                </form>
             </div>
         <% } %>
     
@@ -212,13 +119,9 @@
             </div>
     </div>
     <!-- Map -->
-    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 mt-3">
-        <h3>Where You'll be</h3>
+    <div class="col-6 offset-3 mt-3">
+        <h3>Where You'll be </h3>
         <div id="map"></div>
     </div>
 
     <script src="/js/map.js"></script>
-
-
-
-    

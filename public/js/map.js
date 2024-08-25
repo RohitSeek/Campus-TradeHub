@@ -3,6 +3,8 @@
 console.log(map_token);
 console.log(location);
 console.log(typeof(location));
+console.log(listingData);
+
 listingData = JSON.parse(listingData);
 mapboxgl.accessToken =map_token ;
 const map = new mapboxgl.Map({

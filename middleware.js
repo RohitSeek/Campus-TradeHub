@@ -1,13 +1,22 @@
 function isLoggedIn(req,res,next)
 {
-    if(!req.isAuthenticated()){
+    // console.log(req.user);
+    
+    if(!req.isAuthenticated() || !req.user.isVerified){
         //requestedUrl need to be save
         // so for access to any route store it in session
         req.session.requestedUrl=req.originalUrl;
         console.log(req.session.requestedUrl);
-         
-        req.flash("error","Must Be logged In first");
-       return res.redirect("/login");
+        if(!req.isAuthenticated())   
+        {
+            req.flash("error","You must be signed in first!");
+            return res.redirect("/login");
+        }
+        else
+          {  req.flash("error","Verify your email first");
+            return res.redirect("/listings");
+          }
+        
     }
     next();
 }
