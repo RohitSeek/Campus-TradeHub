@@ -18,6 +18,76 @@
      
     /* justify-content: ; */
   }
+
+/* Card styling */
+.listing-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none; /* Removes the default border */
+  background: linear-gradient(135deg, #a9f690 0%, #f1f0ef 100%);
+  border-radius: 10px; /* Smooth rounded corners */
+  overflow: hidden; /* Prevents content overflow */
+}
+
+.listing-card:hover {
+  transform: translateY(-8px); /* Lifts the card up slightly */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Adds a deeper shadow */
+}
+
+/* Card image styling */
+.card-img-top {
+  transition: transform 0.3s ease; /* Smooth image zoom */
+  border-top-left-radius: 10px; /* Matches card border radius */
+  border-top-right-radius: 10px; /* Matches card border radius */
+}
+
+.listing-card:hover .card-img-top {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Card overlay styling */
+.card-img-overlay {
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay for text contrast */
+  transition: background 0.3s ease; /* Smooth overlay transition */
+}
+
+.card-img-overlay h5 {
+  font-size: 1.2rem; /* Slightly larger font size */
+  font-weight: bold; /* Bold title */
+}
+
+/* Button styling */
+.btn-sm {
+  background-color: #ff6347; /* Custom button color */
+  border: none; /* No border */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+}
+
+.btn-sm:hover {
+  background-color: #e5533c; /* Darker button color on hover */
+  transform: translateY(-2px); /* Lifts the button on hover */
+}
+
+/* Remove unwanted shadows */
+.listing-card .card-img-top,
+.listing-card .card-body,
+.listing-card .card-img-overlay {
+  box-shadow: none !important; /* Ensures no shadows appear inside the card */
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 15rem; /* Smaller image height on smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .card-img-top {
+    height: 12rem; /* Even smaller image height on extra small screens */
+  }
+}
+
+
 </style>
 
 <% layout("/layouts/boilerplate") %>
@@ -75,20 +145,26 @@
      
     <div class="row row-cols-lg-3   row-cols-md-2   row-cols-sm-1 mt-3">
       <% allListings.forEach(element=> { %>
-        <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
-          <div class="card litsting-card" style="width: 100%;">
-            <!-- <div class="card" style="width: 20rem;"> -->
-              <a href="<%= site_url %>/listings/<%= element._id%>" class="click-link"> 
-                <img src="<%=element.image.url%>" class="card-img-top" alt="listing_img" style="height: 20rem;">
-                  <div class="card-img-overlay"><%= element.title%></div>
-                  <div class="card-body">
-                    <p class="card-text">
-                      <%= element.title %><br>
-                      <b>₹<%= element.price.toLocaleString("en-IN")%> / night</p> </b>
-                  </div>
-                </a>
+        <div class="col-md-4 col-lg-3 col-sm-6 mb-4">
+          <div class="card listing-card shadow-sm" style="width: 100%;">
+            <a href="<%= site_url %>/listings/<%= element._id%>" class="click-link text-decoration-none">
+              <div class="position-relative">
+                <img src="<%=element.image.url%>" class="card-img-top" alt="listing_img" style="height: 20rem; object-fit: cover;">
+                <div class="card-img-overlay d-flex align-items-end p-0">
+                  <h5 class="bg-dark text-white p-2 m-0 w-100 text-center opacity-75"><%= element.title%></h5>
+                </div>
               </div>
-          </div> 
+              <div class="card-body text-center">
+                <p class="card-text mb-2">
+                  <%= element.title %><br>
+                  <b>₹<%= element.price.toLocaleString("en-IN") %></b>
+                </p>
+                <button class="btn btn-primary btn-sm">More details</button>
+              </div>
+            </a>
+          </div>
+        </div>
+        
                           <!-- <li><a href="http://localhost:8080/listings/<%= element._id%>"> Title:- <%= element.title %></a></li> -->
         <% }); %>
       </div>
