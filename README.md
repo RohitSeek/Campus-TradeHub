@@ -1,5 +1,8 @@
 # Campus TradeHub
-Live link:- campus-tradehub-1.onrender.com
+
+### Live Demo:
+You can check out the live version of Campus TradeHub [here](https://campus-tradehub-1.onrender.com).
+
 
 **Campus TradeHub** is a full-stack web application designed to facilitate the buying and selling of used products among college students. It provides a platform for students to list, browse, and manage product listings with a clean and responsive user interface.
 
