@@ -1,0 +1,219 @@
+ 
+<!-- <body> -->
+<!-- <div class="row mt-3"> -->
+    <!-- style -->
+   <style>
+    /* Card styling */
+.show-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensures inner content doesn't overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.show-card:hover {
+    transform: translateY(-10px); /* Hover effect */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Card image styling */
+.show-img {
+    transition: transform 0.3s ease; /* Smooth image zoom */
+}
+
+.show-card:hover .show-img {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Card body styling */
+.card-body {
+    background-color: #ffffff; /* White background for the card body */
+    padding: 20px; /* More padding for spacing */
+    border-top: 1px solid #e0e0e0; /* Subtle border to separate from image */
+}
+
+.price-text {
+    font-weight: bold; /* Bold font for price */
+    color: #28a745; /* Green color for price to make it stand out */
+}
+
+.location-text {
+    font-style: italic; /* Italicize location for style */
+    color: #6c757d; /* Muted color for less emphasis */
+}
+
+/* Button styling */
+.btns .btn {
+    padding: 0.5rem 1rem; /* Default padding */
+}
+
+.btn {
+    background-color: #007bff; /* Custom button color */
+    border: none; /* No border */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+}
+.btns {
+    margin: 0 auto;
+    text-align: center; /* Center content horizontally */
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+}
+.btn:hover {
+    background-color: #0056b3; /* Darker button color on hover */
+    transform: translateY(-2px); /* Lifts the button on hover */
+}
+
+/* Form and review styling */
+.form-control {
+    border-radius: 8px; /* Rounded corners for inputs */
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 767.98px) {
+    .show-card {
+        margin-bottom: 20px; /* Extra space at the bottom */
+    }
+
+    .card-body {
+        padding: 15px; /* Less padding on small devices */
+    }
+
+    .btn {
+        font-size: 0.75rem; /* Smaller text size */
+        padding: 0.4rem 0.8rem; /* Smaller padding */
+    }
+}
+
+@media (min-width: 768px) {
+    .btn {
+        font-size: 0.875rem; /* Medium text size */
+        padding: 0.6rem 1.2rem; /* Medium padding */
+    }
+}
+
+@media (min-width: 992px) {
+    .btn {
+        font-size: 1rem; /* Larger text size */
+        padding: 0.75rem 1.5rem; /* Larger padding */
+    }
+}
+#map {
+    width: 100%;  /* Ensures the map is responsive */
+    height: 400px;  /* Set a fixed height suitable for your design */
+    }
+   </style>
+ <script>
+        let map_token="<%= process.env.MAP_TOKEN %>"
+        let port="<%= process.env.PORT_NO%>"
+        // let url="<%#= process.env.SITE_URL%>"
+        // const listingData = `<%#- JSON.stringify(listingData) %>`;
+        let listingData =`<%- JSON.stringify(listingData) %>`;
+      console.log("in show ",listingData);
+ </script>
+
+<% layout("/layouts/boilerplate") %>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h3><%= listingData.title %></h3>
+        </div>
+        <div class="col-md-6 col-lg-4 mx-auto">
+            <div class="card show-card listing-card">
+                <img src="<%= listingData.image.url %>" 
+                     class="card-img-top show-img img-fluid rounded" 
+                     alt="listing_image"
+                     height="300px" />
+                <div class="card-body text-center">
+                    <p class="card-text owner-text mb-2"><i>Owned by <%= listingData.owner.username %></i></p>
+                    <p class="card-text description-text mb-3"><%= listingData.description %></p>
+                    <p class="card-text price-text mb-2">&#8377; <%= listingData.price.toLocaleString("en-IN") %></p>
+                    <p class="card-text location-text mb-2"><%= listingData.location %>, <%= listingData.country %></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit and Delete Buttons -->
+        <% if (currUser && currUser._id.equals(listingData.owner._id)) { %>
+            <div class="col-12 btns mt-4">
+                <div class="d-flex justify-content-center flex-wrap">
+                    <a href="<%= site_url %>/listings/<%= listingData._id %>/edit" 
+                       class="btn btn-dark me-2 mb-2">Edit
+                    </a> 
+                    <form method="post" action="/listings/<%= listingData._id%>?_method=Delete" class="mb-2">
+                        <button type="submit" class="btn btn-dark">Delete</button>
+                    </form>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Review Section -->
+        <div class="col-12 mt-4">
+            <% if (currUser) { %>
+                <hr>
+                <h4>Leave a Review</h4>
+                <form method="post" action="/listings/<%= listingData._id%>/reviews" novalidate class="needs-validation">
+                    <div class="mb-3">
+                        <fieldset class="starability-heart">
+                            <legend>Rating:</legend>
+                            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+                            <input type="radio" id="first-rate1" name="rating" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="rating" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="rating" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="rating" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="rating" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comments</label>
+                        <textarea name="comment" cols="25" rows="5" class="form-control needs-validation" required></textarea>
+                        <div class="invalid-feedback">Please fill out the details.</div>
+                    </div>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            <% } %>
+            <hr>
+            <% if (listingData.reviews.length) { %>
+                <h4>All Reviews</h4>
+                <div class="row">
+                    <% listingData.reviews.forEach(element => { %>
+                        <div class="card col-12 col-md-6 mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@<%= element.author.username %></h5>
+                                <p class="starability-result" data-rating="<%= element.rating %>"></p>
+                                <p class="card-text"><%= element.comment %></p>
+                                <p class="card-text"><%= element.rating %> Stars</p>
+                                <% if (currUser && currUser._id.equals(element.author._id)) { %>
+                                    <form method="post" action="/listings/<%= listingData._id %>/reviews/<%= element._id %>?_method=Delete">
+                                        <button class="btn btn-sm btn-dark">Delete</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Map Section -->
+        <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 mt-4">
+            <h3>Where You'll Be</h3>
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/map.js"></script>
+
+
+    <script src="/js/map.js"></script>
+
+
+
+    

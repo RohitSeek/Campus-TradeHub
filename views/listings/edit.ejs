@@ -1,0 +1,88 @@
+
+<% layout("/layouts/boilerplate") %>  
+<div class="row">
+    <div class="col-6 offset-3">
+         <h3>Edit Page for : <%= listingData.title %> </h3>
+     <form method="POST" action="/listings/<%= listingData._id%>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title </label>
+            <input type="text" 
+                name="title"
+                placeholder="Enter Title" 
+                class="form-control"
+                value="<%= listingData.title%>"
+                required
+            />        
+            <div class="valid-feedback">Title looks Good!</div>
+        </div>    
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>   
+            <textarea rows="2" cols="20" name="description" class="form-control" required><%= listingData.description%></textarea>
+            <div class="invalid-feedback">Ohh its lengthy..</div>
+            
+        </div>
+        <div class="mb-3">
+            <img src="<%= originalUrl%>">
+        </div>
+        <div class="mb-3">
+            <label for="img-link" class="form-label">Image File</label>
+            <input type="file" 
+                name="image"
+                placeholder="Image Link" 
+                class="form-control"
+                
+            />     
+           </div>  
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Price </label>
+                <input 
+                    name="price"
+                    placeholder="Enter Price" 
+                    class="form-control"
+                    value=<%= listingData.price%>
+                    required
+                />        
+                <div class="invalid-feedback">Should be Number</div>    
+            </div>  
+            <div class="mb-3 col-md-8">
+                <label for="country" class="form-label">Country </label>
+                <input type="text" 
+                    name="country"
+                    placeholder="Country Name" 
+                    class="form-control"
+                    value="<%= listingData.country%>"
+                    required
+                />  
+            </div>  
+        </div>
+        <div class="mb-3">
+             
+            <label for="location" class="form-label">Location </label>
+                <input type="text" 
+                    name="location"
+                    placeholder="Enter location" 
+                    class="form-control"
+                    value=<%= listingData.location%>  
+                    required
+                />    
+                <div class="invalid-feedback">location is invalid</div>    
+        </div>  
+        <button type="submit" class="btn btn-dark add-bttn">Add </button>
+    </form>
+    <form method="post" action="/listings/<%= listingData._id%>?_method=Delete">
+        <br>
+        <button type="submit">Delete Post</button>
+    </form>
+</div>
+ </div>
+
+
+    <!-- <p>Title:- <input type="text" name="title" value="<%#= listingData.title %>"></p>
+        <p>Description:- <textarea rows="10" cols="40" name="description"><%#= listingData.description%></textarea> </p>
+        <p>Price:- <input type="number" name="price" value="<%#= listingData.price%>"></p>
+        <p>Image Link:- <input type="text" name="image" value="<%#= listingData.image.url%>" > </p>-->
+        <!-- <p>Location:- <input type="text" name="location"  value="<%#= listingData.location%>"></p>
+        <p>Country:- <input type="text" name="country"  value="<%#= listingData.country%>"></p> 
+        <button type="submit">Submit </button> -->
